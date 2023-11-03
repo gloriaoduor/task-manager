@@ -2,9 +2,10 @@ import React from "react";
 import { useEffect, useState } from "react";
 
 
-function Tasklist(){
+function Tasklist({openModal}){
     const [data, setData] = useState([]);
 
+    //fetch tasks
     useEffect(()=> {
         const fetchData = async () => {
             try{
@@ -29,7 +30,7 @@ function Tasklist(){
                     <h5>Tasks List</h5>
                 </div>
                 <div className="col text-right">
-                <button className="btn btn-danger " >
+                <button className="btn btn-danger " onClick={openModal}>
                     <i className="fa fa-plus">  Add New </i>
                 </button>
             </div>

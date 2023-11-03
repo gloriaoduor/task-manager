@@ -1,0 +1,40 @@
+.body {
+    font-family: "Roboto", sans-serif;
+    background-color: #f8fafb;
+}
+.content {
+    padding: 7rem 0;
+}
+h2 {
+    font-size: 20px; }
+@media (max-width: 991.98px) {
+    .content .bg {
+      height: 500px; } }
+.content .contents, .content .bg {
+    width: 50%; }
+
+.content .bg {
+    background-size: cover;
+    background-position: center; 
+}
+
+.content .btn {
+  height: 54px;
+  padding-left: 30px;
+  padding-right: 30px; 
+}
+.control {
+    display: block;
+    position: relative;
+    padding-left: 30px;
+    margin-bottom: 15px;
+    cursor: pointer;
+    font-size: 14px; }
+
+.control .caption {
+    position: relative;
+    top: .2rem;
+    color: #888; 
+}
+
+
