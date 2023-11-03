@@ -29,11 +29,6 @@ function Tasklist({openModal}){
                 <div className="col">
                     <h5>Tasks List</h5>
                 </div>
-                <div className="col text-right">
-                <button className="btn btn-danger " onClick={openModal}>
-                    <i className="fa fa-plus">  Add New </i>
-                </button>
-            </div>
             </div>
             <p>
             <br></br>
@@ -72,6 +67,11 @@ function Tasklist({openModal}){
                         </tbody>
                     </table>
                 </div>
+                <div className="col text-right">
+                <button className="btn btn-danger " onClick={openModal}>
+                    <i className="fa fa-plus">  Add New </i>
+                </button>
+            </div>
                 </div>
         </div>
         

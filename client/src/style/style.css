@@ -36,5 +36,9 @@ h2 {
     top: .2rem;
     color: #888; 
 }
+.navbar-logo {
+    width: 70px; 
+    height: 70px; 
+  }
 
 

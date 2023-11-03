@@ -1,19 +1,30 @@
-import React from "react";
+import React from 'react';
+import logo from '../assets/tmLogo.PNG';
+import '../style/style.css';
 
-function Header ({handleToggleDarkMode}) {
-    return (
-        <div className="header">
-            <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
-                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="collapse navbar-collapse" id="navbarText">
-                    <span class="navbar-text"> Profile pic and sign out link </span>
-                    {/* change color of navbar */}
-                </div>
-            </nav>
-        </div>
-    )
+
+function Navbar() {
+
+    function onSignOut(e){
+        e.preventDefault();
+
+    }
+  return (
+    <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div className="container">
+        <img src={logo} alt="Logo" className="navbar-logo mx-4 m" />
+        <span className="navbar-brand">Dashboard</span>
+
+      <div className="navbar-text ml-auto">
+        <span className="">
+        <a href="#" onClick={onSignOut}>
+          Sign Out
+        </a>
+        </span>
+      </div>
+    </div>
+  </nav>
+  );
 }
 
-export default Header;
+export default Navbar;

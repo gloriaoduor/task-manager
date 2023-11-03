@@ -1,5 +1,6 @@
 import React from 'react';
-import "../style/LoginStyle.css";
+import "../style/style.css";
+import logo from '../assets/tmLogo.PNG';
 import background from  "../assets/undraw_remotely_2j6y.svg";
 import { Link } from 'react-router-dom';
 
@@ -8,7 +9,6 @@ function Login() {
     <div className="content">
         
       <div className="container">
-      <h2 className=''>Task Manager</h2>
         <div className="row">
             
           <div className="col-md-6">
@@ -45,7 +45,6 @@ function Login() {
                   <div className="d-flex mb-3 align-items-center">
                     <span className="ml-auto">
                         New to Task Manager? 
-                        {/* <a href="#">Create&nbsp;An&nbsp;Account</a> */}
                         <Link to="/signup"> Create account</Link>
                     </span>
                   </div>
