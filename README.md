@@ -1,24 +1,25 @@
-# README
+# Task Management System
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+This is a simple web application to assist a user in managing tasks.
+A user can:
+    - Create an account 
+    - Log in to their account
+    - View all their tasks
+    - Edit a task
+    - Create a new task
+    - Delete a task
+    - Mark a task as completed
 
-Things you may want to cover:
+##Technologies Used:
+###Backend:
+* Ruby & Rails framework
+* Sqlite3 Database
 
-* Ruby version
+###Frontend
+* React 
+* CSS 
+* Bootstrap
 
-* System dependencies
+##How To run:
 
-* Configuration
 
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
