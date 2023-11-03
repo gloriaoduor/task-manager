@@ -4,9 +4,17 @@ class TasksController < ApplicationController
     render json: tasks, status: :ok
   end
 
+  # def create
+  #   task = Task.create(permit_params)
+  #   render json: task, status: :ok
+  # end
   def create
-    task = Task.create(permit_params)
-    render json: task, status: :ok
+    task = Task.new(permit_params)
+    if task.save
+      render json: {message: "Task created successfully"}, status: :ok
+    else
+      render json: {error: task.errors}, status: :bad_request
+    end
   end
 
   def show
@@ -38,6 +46,6 @@ class TasksController < ApplicationController
   end
 
   def permit_params
-    params.permit(:title, :description, :status, :creation_date)
+    params.permit(:title, :description, :status, :creation_date, :user_id)
   end
 end

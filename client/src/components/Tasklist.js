@@ -2,25 +2,41 @@ import React from "react";
 import { useEffect, useState } from "react";
 
 
-function Tasklist({openModal}){
+function Tasklist({openModal, openEditModal}){
     const [data, setData] = useState([]);
 
     //fetch tasks
-    useEffect(()=> {
-        const fetchData = async () => {
-            try{
-                const response = await fetch("http://127.0.0.1:3000/tasks");
-                const jsonResp = await response.json();
-                setData(jsonResp);
-                console.log(jsonResp)
-            } catch (error) {
-                console.error('Error fetching data:', error)
-            }
-        };
+    
+    const fetchData = async () => {
+        try{
+            const response = await fetch("http://127.0.0.1:3000/tasks");
+            const jsonResp = await response.json();
+            setData(jsonResp);
+            console.log(jsonResp)
+        } catch (error) {
+            console.error('Error fetching data:', error)
+        }
+    };
+    
+    useEffect(()=> {  
+        fetchData();
+    }, []);
 
+
+    function handleDelete(item){
+        const confirmDelete = window.confirm("Are you sure you want to delete this task?");
+
+        if (confirmDelete){
+            fetch(`http://localhost:3000/tasks/${item.id}`, {
+            method: "DELETE",
+        })
+        .then((resp)=> console.log(resp.json));   
+        }
         fetchData();
         
-    }, [])
+    }
+
+
 
     return (
         <div className="container">
@@ -57,8 +73,8 @@ function Tasklist({openModal}){
                                     <td>{item.creation_date}</td>
                                     <td><input type="checkbox"/></td>
                                     <td>
-                                        <i className="px-2 fa fa-edit" aria-hidden="true"></i>
-                                        <i className="px-2 fa fa-trash" aria-hidden="true"></i>                                
+                                        <i className="px-2 fa fa-edit" aria-hidden="true" onClick={() => openEditModal(item)}></i>
+                                        <i className="px-2 fa fa-trash" aria-hidden="true" onClick={() => handleDelete(item)}></i>                                
                                     </td>
                                 </tr>     
                             ))}                       
