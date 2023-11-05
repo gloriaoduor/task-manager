@@ -2,12 +2,13 @@ import React, { useState } from 'react';
 import "../style/style.css";
 import logo from '../assets/tmLogo.PNG';
 import background from  "../assets/undraw_reminder_re_fe15.svg";
-import { Link } from 'react-router-dom';
+import { Link, useNavigate} from 'react-router-dom';
 
 function SignUp() {
   const [username, setUsername] = useState('');
   const[password_digest, setPassword_digest] = useState('');
   const [user, setUser] = useState('');
+  const navigate = useNavigate();
 
   const newUser ={
     username : username,
@@ -16,8 +17,11 @@ function SignUp() {
 
   function signUpFxn(e){
     e.preventDefault()
-    console.log(username)
-    fetch("http://127.0.0.1:3000/api/auth/register", {
+
+    if (newUser.username === "" || newUser.password === "")
+      alert("Please enter username and password")
+    else (
+      fetch("http://127.0.0.1:3000/api/auth/register", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -26,12 +30,14 @@ function SignUp() {
       body: JSON.stringify(newUser)
     })
     .then((resp) => resp.json())
-    .then((data) => console.log(data))
-
-    window.alert("Account Created, Proceed to Log in")
-  
-    
+    .then((data) => {
+      console.log(data)
+      alert("Account Created, Proceed to Log in");
+      navigate('/login')
+    })
+    )
   }
+
 
   return (
     <div className="content">
@@ -52,10 +58,7 @@ function SignUp() {
                   <h3>Sign&nbsp;Up</h3>
                 </div>
                 <form action="#" method="post">
-                  <div className="form-group first mb-2">
-                    <label htmlFor='email'>Email</label>
-                    <input type="text" className="form-control"  id="email" required />
-                  </div>
+                 
                   <div className="form-group first mb-2">
                     <label htmlFor="username">Username</label>
                     <input type="text" className="form-control" value={username} onChange={(e) => setUsername(e.target.value)} id="username" required/>
@@ -64,8 +67,7 @@ function SignUp() {
                     <label htmlFor="password">Password</label>
                     <input type="password" className="form-control" value={password_digest} onChange={(e) => setPassword_digest (e.target.value)} id="password" required/>
                   </div>
-                  <button className="btn btn-block btn-primary" onClick={signUpFxn}>
-                   <Link to="/login">Sign up</Link></button>
+                   <button className="btn btn-block btn-primary"onClick={signUpFxn}> Sign Up  </button>
 
                   <div className="d-flex my-3 align-items-center">
                     <span className="ml-auto">

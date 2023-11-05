@@ -1,5 +1,5 @@
 import React from "react";
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import {
     CDBSidebar,
     CDBSidebarContent,
@@ -11,6 +11,7 @@ import {
 
 
 function SideBar (){
+  const navigate = useNavigate();
 
     return (
     <div className="border-end sidenav" id="sidebar-wrapper">
@@ -40,7 +41,7 @@ function SideBar (){
 
           <CDBSidebarFooter style={{ textAlign: 'center' }}>
             <div className="sidebar-btn-wrapper" style={{padding: '20px 5px', }}>
-              <button className="btn btn-primary">Logout</button>
+              <button className="btn btn-primary" onClick={()=>{navigate("/login")}} >Logout</button>
             </div>
           </CDBSidebarFooter>
 

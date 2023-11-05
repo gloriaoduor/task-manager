@@ -2,13 +2,14 @@ import React, { useState, useEffect }  from 'react';
 import "../style/style.css";
 import logo from '../assets/tmLogo.PNG';
 import background from  "../assets/undraw_remotely_2j6y.svg";
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 function Login() {
 
   const [token, setToken] = useState('');
-  const [username, setUsername] = useState('')
-  const [password, setPassword]  = useState('')
+  const [username, setUsername] = useState('');
+  const [password, setPassword]  = useState('');
+  const navigate = useNavigate();
 
   useEffect(() => {
     // Retrieve the JWT token from local storage 
@@ -26,8 +27,11 @@ function Login() {
 
   function logIn(e) {
     e.preventDefault();
-    
-    fetch("http://localhost:3000/api/auth/login", {
+
+    if (userData.username === "" || userData.password === "")
+      alert("Please enter username and password to log in")
+    else (
+      fetch("http://localhost:3000/api/auth/login", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -37,8 +41,10 @@ function Login() {
     })
     .then((resp) => resp.json())
     .then((data) => { console.log(data)
-  })
-  }
+    navigate("/home")
+    })
+      
+    )}
 
   return (
     <div className="content">
@@ -68,8 +74,8 @@ function Login() {
                     <label htmlFor="password">Password</label>
                     <input type="password" className="form-control" id="password" value={password} onChange={(e) => setPassword(e.target.value)}/>
                   </div>
-                  <button className="btn btn-block btn-primary" onClick={logIn}>
-                    <Link to="/home">Log In </Link></button>
+                  <button className="btn btn-block btn-primary" onClick={logIn}>Log In
+                  </button>
 
                   <div className="d-flex my-3 align-items-center">
                     <span className="ml-auto">
