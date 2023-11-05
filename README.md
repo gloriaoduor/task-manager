@@ -56,6 +56,3 @@ Have the following prerequisites installed on your system:
 
 
 
-##How To run:
-
-
