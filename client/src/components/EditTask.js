@@ -1,7 +1,7 @@
-import React, { useState } from "react";
+import React, { useState, useEffect} from "react";
 import '../style/AddTask.css';
 
-function EditTask({ showEditModal, closeEditModal }) {
+function EditTask({ showEditModal, closeEditModal}) {
     const [title, setTitle] = useState('');
     const [description, setDescription] = useState('');
     const [status, setStatus] = useState('');
@@ -16,6 +16,12 @@ function EditTask({ showEditModal, closeEditModal }) {
       }
 
     const [dateCreated, setDateCreated] = useState(getCurrentDate());
+      // Fill the form fields with task details when the item changes
+      useEffect(() => {
+        setTitle(title);
+        setDescription(description);
+        setStatus(status);
+    }, []);
     
 
     function handleSubmit(e) {
@@ -28,7 +34,7 @@ function EditTask({ showEditModal, closeEditModal }) {
             creation_date: dateCreated, // Fixed the dateCreated issue
         };
 
-        fetch("http://localhost:3000/tasks", {
+        fetch(`http://localhost:3000/tasks/`, {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json',
@@ -46,7 +52,7 @@ function EditTask({ showEditModal, closeEditModal }) {
             }
         })
         
-        closeModal();
+        closeEditModal();
     }
 
     return (
@@ -56,7 +62,7 @@ function EditTask({ showEditModal, closeEditModal }) {
                     <div className="modal-dialog modal-dialog-centered">
                         <div className="modal-content">
                             <div className="modal-header">
-                                <h5 className="modal-title"> Add A New Task </h5>
+                                <h5 className="modal-title"> Edit Task </h5>
                             </div>
                             <div className="modal-body">
                                 <form className="container">

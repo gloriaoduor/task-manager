@@ -1,13 +1,11 @@
 class TasksController < ApplicationController
+
   def index
     tasks = Task.all
     render json: tasks, status: :ok
   end
 
-  # def create
-  #   task = Task.create(permit_params)
-  #   render json: task, status: :ok
-  # end
+
   def create
     task = Task.new(permit_params)
     if task.save
@@ -46,6 +44,6 @@ class TasksController < ApplicationController
   end
 
   def permit_params
-    params.permit(:title, :description, :status, :creation_date, :user_id)
+    params.permit(:title, :description, :status, :creation_date)
   end
 end

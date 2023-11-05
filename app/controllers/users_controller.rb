@@ -1,11 +1,14 @@
 class UsersController < ApplicationController
+  # skip_before_action :authorized, only: [:create]
 
-  def new
-    user = User.new(permit_params)
-    if user.save
-      render json: {message: "User created successfully"}, status: :ok
+
+  def create
+    @user = User.create(permit_params)
+    if @user.valid?
+      # @token = encode_token(user_id: @user.id)
+      render json: { message: "Created successfully" }, status: :created
     else
-      render json: {error: user.errors}, status: :bad_request
+      render json: { error: 'failed to create user' }, status: :unprocessable_entity
     end
   end
   def index
@@ -13,8 +16,9 @@ class UsersController < ApplicationController
     render json: users, status: :ok
   end
 
+  private
   def permit_params
-    params.permit(:username, :password_digest)
+    params.require(:user).permit(:username, :password_digest)
   end
 
 end

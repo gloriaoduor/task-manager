@@ -1,10 +1,45 @@
-import React from 'react';
+import React, { useState, useEffect }  from 'react';
 import "../style/style.css";
 import logo from '../assets/tmLogo.PNG';
 import background from  "../assets/undraw_remotely_2j6y.svg";
 import { Link } from 'react-router-dom';
 
 function Login() {
+
+  const [token, setToken] = useState('');
+  const [username, setUsername] = useState('')
+  const [password, setPassword]  = useState('')
+
+  useEffect(() => {
+    // Retrieve the JWT token from local storage 
+    const storedToken = localStorage.getItem('jwt');
+    if (storedToken) {
+      setToken(storedToken);
+    }
+  }, []);
+
+  const userData = {
+    username: username,
+    password: password
+  }
+  
+
+  function logIn(e) {
+    e.preventDefault();
+    
+    fetch("http://localhost:3000/api/auth/login", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        // Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify(userData)
+    })
+    .then((resp) => resp.json())
+    .then((data) => { console.log(data)
+  })
+  }
+
   return (
     <div className="content">
         
@@ -27,13 +62,14 @@ function Login() {
                 <form action="#" method="post">
                   <div className="form-group first">
                     <label htmlFor="username">Username</label>
-                    <input type="text" className="form-control" id="username" />
+                    <input type="text" className="form-control" id="username" value={username} onChange={(e) => setUsername(e.target.value)} />
                   </div>
                   <div className="form-group last mb-4">
                     <label htmlFor="password">Password</label>
-                    <input type="password" className="form-control" id="password" />
+                    <input type="password" className="form-control" id="password" value={password} onChange={(e) => setPassword(e.target.value)}/>
                   </div>
-                  <input type="submit" value="Log In" className="btn btn-block btn-primary" />
+                  <button className="btn btn-block btn-primary" onClick={logIn}>
+                    <Link to="/home">Log In </Link></button>
 
                   <div className="d-flex my-3 align-items-center">
                     <span className="ml-auto">

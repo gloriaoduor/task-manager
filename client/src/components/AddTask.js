@@ -1,10 +1,11 @@
 import React, { useState } from "react";
 import '../style/AddTask.css';
 
-function AddTask({ showModal, closeModal }) {
+function AddTask({ showModal, closeModal}) {
     const [title, setTitle] = useState('');
     const [description, setDescription] = useState('');
     const [status, setStatus] = useState('');
+    const url = "http://localhost:3000/tasks"
 
     function getCurrentDate() {
         const date = new Date();
@@ -28,7 +29,7 @@ function AddTask({ showModal, closeModal }) {
             creation_date: dateCreated, // Fixed the dateCreated issue
         };
 
-        fetch("http://localhost:3000/tasks", {
+        fetch(url, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -37,9 +38,9 @@ function AddTask({ showModal, closeModal }) {
         })
         .then(response => {
             if (response.ok) {
-                // Handle the success case, e.g., close the modal
-                alert("Saved successfully")
                 console.log(response.json())
+                alert("Saved successfully")
+                window.location.reload();                
             } else {
                 console.log("Failed to add a task.");
                 console.log(response.json())
@@ -47,6 +48,7 @@ function AddTask({ showModal, closeModal }) {
         })
         
         closeModal();
+        
     }
 
     return (

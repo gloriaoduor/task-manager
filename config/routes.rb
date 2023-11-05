@@ -3,8 +3,8 @@ Rails.application.routes.draw do
 
   resources :tasks, only: [:create, :index, :show, :update, :destroy]
 
-  post "/api/auth/register", to: "users#new"
+  post "/api/auth/register", to: "users#create"
   get "/users", to: "users#index"
-  # post "/api/auth/login", to: "sessions#create"
+  post "/api/auth/login", to: "sessions#create"
   # post "/api/auth/logout", to: "sessions#destroy"
 end

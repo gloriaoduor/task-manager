@@ -1,9 +1,12 @@
 import React from "react";
 import { useEffect, useState } from "react";
+import Switch from "react-switch";
+
 
 
 function Tasklist({openModal, openEditModal}){
     const [data, setData] = useState([]);
+    const [status, setStatus] = useState('');
 
     //fetch tasks
     
@@ -30,12 +33,10 @@ function Tasklist({openModal, openEditModal}){
             fetch(`http://localhost:3000/tasks/${item.id}`, {
             method: "DELETE",
         })
-        .then((resp)=> console.log(resp.json));   
+        .then((resp)=> console.log(resp.json))
+        .then(() => fetchData());   
         }
-        fetchData();
-        
     }
-
 
 
     return (
@@ -59,11 +60,11 @@ function Tasklist({openModal, openEditModal}){
                                 <th>Description</th>
                                 <th>Status</th>
                                 <th>Creation Date</th>
-                                <th>Mark as done</th>
+                                <th>Change Status</th>
                                 <th></th>
                             </tr>
                         </thead>
-                        <tbody>
+                        {/* <tbody>
                             {data.map((item, index) => (
                                 <tr key={index}>
                                    
@@ -71,16 +72,117 @@ function Tasklist({openModal, openEditModal}){
                                     <td>{item.description}</td>
                                     <td>{item.status}</td>
                                     <td>{item.creation_date}</td>
-                                    <td><input type="checkbox"/></td>
+                                    <td><Switch checked={item.status === "Complete"} onChange={() => {
+                                        console.log("Current status is "+ item.status)
+                                        
+
+                                        const newStatus = (item.status === "Pending") ? "Complete" : "Pending";
+      
+                                        // Update the local state first
+                                        setStatus(newStatus);
+                                        console.log(item.id)
+                                        console.log("status after toggle" + newStatus)
+                                        const data = {
+                                            title: item.title,
+                                            description: item.description,
+                                            status: newStatus,
+                                            creation_date: item.creation_date, // Fixed the dateCreated issue
+                                        };
+                                        console.log(data);
+                                      
+                                        // Send a PATCH request to update the status in the database
+                                        fetch(`http://localhost:3000/tasks/${item.id}`, {
+                                          method: "PUT",
+                                          headers: {
+                                            'Content-Type': 'application/json',
+                                          },
+                                          body: JSON.stringify(data), // Use the newStatus value
+                                        })
+                                          .then((response) => {
+                                            const dat = response.json()
+                                            if (response.ok) {
+                                              console.log(dat)
+                                            } else {
+                                              console.log("Failed to update the task status.");
+                                            }
+                                          }).then(() => fetchData())   
+                                          .catch((error) => {
+                                            console.error('Error:', error);
+                                          });
+                                    } }
+                                     /></td>
                                     <td>
-                                        <i className="px-2 fa fa-edit" aria-hidden="true" onClick={() => openEditModal(item)}></i>
+                                        <i className="px-2 fa fa-edit" aria-hidden="true" onClick={()=>openEditModal(item)}></i>
                                         <i className="px-2 fa fa-trash" aria-hidden="true" onClick={() => handleDelete(item)}></i>                                
                                     </td>
                                 </tr>     
                             ))}                       
                               
         
-                        </tbody>
+                        </tbody> */}
+                         <tbody>
+                        {data.length > 0 ? (
+                            data.map((item, index) => (
+                                <tr key={index}>
+                                    <td>{item.title}</td>
+                                    <td>{item.description}</td>
+                                    <td>{item.status}</td>
+                                    <td>{item.creation_date}</td>
+                                    <td>
+                                        <Switch
+                                            checked={item.status === "Complete"}
+                                            onChange={() => {
+                                                console.log("Current status is " + item.status);
+
+                                                const newStatus = item.status === "Pending" ? "Complete" : "Pending";
+
+                                                // Update the local state first
+                                                setStatus(newStatus);
+                                                console.log(item.id);
+                                                console.log("status after toggle" + newStatus);
+                                                const data = {
+                                                    title: item.title,
+                                                    description: item.description,
+                                                    status: newStatus,
+                                                    creation_date: item.creation_date, // Fixed the dateCreated issue
+                                                };
+                                                console.log(data);
+
+                                                // Send a PATCH request to update the status in the database
+                                                fetch(`http://localhost:3000/tasks/${item.id}`, {
+                                                    method: "PUT",
+                                                    headers: {
+                                                        'Content-Type': 'application/json',
+                                                    },
+                                                    body: JSON.stringify(data), // Use the newStatus value
+                                                })
+                                                    .then((response) => {
+                                                        const dat = response.json()
+                                                        if (response.ok) {
+                                                            console.log(dat)
+                                                        } else {
+                                                            console.log("Failed to update the task status.");
+                                                        }
+                                                    })
+                                                    .then(() => fetchData())
+                                                    .catch((error) => {
+                                                        console.error('Error:', error);
+                                                    });
+                                            }}
+                                        />
+                                    </td>
+                                    <td>
+                                        <i className="px-2 fa fa-edit" aria-hidden="true" onClick={() => openEditModal(item)}></i>
+                                        <i className="px-2 fa fa-trash" aria-hidden="true" onClick={() => handleDelete(item)}></i>
+                                    </td>
+                                </tr>
+                            ))
+                        ) : (
+                            <tr>
+                                <td colSpan="6">Loading...</td>
+                            </tr>
+                        )}
+                    </tbody>
                     </table>
                 </div>
                 <div className="col text-right">
